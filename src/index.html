@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <title>dictionary</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+
+  <body>
+    <div class="container">
+      <input type="text" id="inp-word" placeholder="Nhập từ cần dịch" />
+      <button onclick="handleSearch()" type="button">Dịch</button>
+    </div>
+    <div id="meaning"></div>
+
+    <!-- Thêm hộp thoại tạo từ mới vào thẻ body -->
+    <dialog id="create-dialog">
+      <input type="text" id="inp-meaning" placeholder="Nhập nghĩa của từ" />
+      <button type="button" onclick="handleCreate()">Tạo</button>
+      <!-- Thêm sự kiện click vào nút "Hủy" -->
+      <button type="button" onclick="dialog.close()">Hủy</button>
+    </dialog>
+
+    <script src="/dist/index.js"></script>
+  </body>
+</html>
