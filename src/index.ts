@@ -1,5 +1,5 @@
 // Tạo dictionary
-const dictionary: Dictionary = {
+let dictionary: { [key: string]: string } = {
   apple: "táo",
   cat: "mèo",
   dog: "chó",
@@ -9,32 +9,39 @@ const dictionary: Dictionary = {
 let dialog: HTMLDialogElement;
 
 // Hàm xử lý khi người dùng nhấn nút "Tìm"
-function handleSearch() {
+function handleSearch(): void {
   // Lấy từ cần tìm từ ô nhập liệu
-  const word = document.getElementById("inp-word").value;
+  let wordInput = document.getElementById("inp-word") as HTMLInputElement;
+  let word = wordInput.value;
+  let meaning = dictionary[word];
 
-  // Kiểm tra xem từ có trong dictionary không
-  if (dictionary.hasOwnProperty(word)) {
+  if (meaning) {
     // Hiển thị nghĩa của từ
-    document.getElementById("meaning").innerHTML = dictionary[word];
+    let meaningElement = document.getElementById("meaning");
+    meaningElement.innerHTML = meaning;
   } else {
     // Hiển thị thông báo không tìm thấy từ
-    document.getElementById("meaning").innerHTML = "Không tìm thấy từ";
+    let meaningElement = document.getElementById("meaning");
+    meaningElement.innerHTML = "Không tìm thấy từ, hãy tạo mới";
 
     // Tạo hộp thoại tạo từ mới
-    dialog = document.getElementById("create-dialog");
+    dialog = document.getElementById("create-dialog") as HTMLDialogElement;
     dialog.showModal();
   }
 }
 
 // Hàm xử lý khi người dùng nhấn nút "Tạo"
-function handleCreate() {
+function handleCreate(): void {
   // Lấy nghĩa của từ từ ô nhập liệu
-  const meaning = document.getElementById("inp-meaning").value;
+  let meaningInput = document.getElementById("inp-meaning") as HTMLInputElement;
+  let meaning = meaningInput.value;
 
-  // Kiểm tra xem từ đã có trong dictionary chưa
+  // Lấy từ cần tạo từ ô nhập liệu
+  let wordInput = document.getElementById("inp-word") as HTMLInputElement;
+  let word = wordInput.value;
+
+  // Thêm từ mới vào dictionary
   if (!dictionary.hasOwnProperty(word)) {
-    // Thêm từ mới vào dictionary
     dictionary[word] = meaning;
 
     // Lưu dictionary vào local storage
@@ -52,9 +59,9 @@ function handleCreate() {
 }
 
 // Hàm lưu dictionary vào local storage
-function saveDictionary() {
+function saveDictionary(): void {
   // Chuyển dictionary sang dạng JSON
-  const json = JSON.stringify(dictionary);
+  let json = JSON.stringify(dictionary);
 
   // Lưu dictionary vào local storage
   localStorage.setItem("dictionary", json);
@@ -76,21 +83,12 @@ window.onload = function () {
 };
 
 // Hàm loadDictionary
-function loadDictionary() {
+function loadDictionary(): void {
   // Lấy dữ liệu từ local storage
-  const json = localStorage.getItem("dictionary");
+  let json = localStorage.getItem("dictionary");
 
   // Nếu có dữ liệu thì gán vào dictionary
   if (json) {
     dictionary = JSON.parse(json);
   }
 }
-
-// Xử lý khi người dùng nhấn nút "Dịch"
-document
-  .getElementById("inp-word")
-  .addEventListener("keydown", function (event) {
-    if (event.keyCode === 13) {
-      handleSearch();
-    }
-  });
